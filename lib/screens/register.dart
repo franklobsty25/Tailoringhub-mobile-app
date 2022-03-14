@@ -107,6 +107,14 @@ class _RegisterState extends State<Register> {
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    alignment: Alignment.topCenter,
+                    image: AssetImage("assets/img/tailoringhub.jpg"),
+                    fit: BoxFit.cover),
+              ),
+            ),
             SafeArea(
               child: ListView(children: [
                 SingleChildScrollView(
@@ -262,28 +270,28 @@ class _RegisterState extends State<Register> {
                                                     },
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 24.0),
-                                                  child: RichText(
-                                                      text: TextSpan(
-                                                          text:
-                                                              "password strength: ",
-                                                          style: TextStyle(
-                                                              color: ArgonColors
-                                                                  .muted),
-                                                          children: [
-                                                        TextSpan(
-                                                            text: "strong",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: ArgonColors
-                                                                    .success))
-                                                      ])),
-                                                ),
+                                                // Padding(
+                                                //   padding:
+                                                //       const EdgeInsets.only(
+                                                //           left: 24.0),
+                                                //   child: RichText(
+                                                //       text: TextSpan(
+                                                //           text:
+                                                //               "password strength: ",
+                                                //           style: TextStyle(
+                                                //               color: ArgonColors
+                                                //                   .muted),
+                                                //           children: [
+                                                //         TextSpan(
+                                                //             text: "strong",
+                                                //             style: TextStyle(
+                                                //                 fontWeight:
+                                                //                     FontWeight
+                                                //                         .w600,
+                                                //                 color: ArgonColors
+                                                //                     .success))
+                                                //       ])),
+                                                // ),
                                               ],
                                             ),
                                           ),

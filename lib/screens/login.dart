@@ -96,6 +96,14 @@ class _LoginState extends State<Login> {
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    alignment: Alignment.topCenter,
+                    image: AssetImage("assets/img/tailoringhub.jpg"),
+                    fit: BoxFit.cover),
+              ),
+            ),
             SafeArea(
               child: ListView(children: [
                 SingleChildScrollView(
