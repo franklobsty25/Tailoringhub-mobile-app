@@ -19,7 +19,7 @@ class Subscription extends StatefulWidget {
 }
 
 class _SubscriptionState extends State<Subscription> {
-  var publicKey = 'pk_test_92784a755bd25e05955c24822f297dee168ccde6';
+  var publicKey = 'PAYSTACK_PUBLIC_KEY';
   final plugin = PaystackPlugin();
 
   @override
