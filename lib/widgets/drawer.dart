@@ -113,17 +113,15 @@ class ArgonDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Divider(height: 4, thickness: 0, color: ArgonColors.muted),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 16.0, left: 16, bottom: 8),
-                    child: Text("DOCUMENTATION",
-                        style: TextStyle(
-                          color: Color.fromRGBO(0, 0, 0, 0.5),
-                          fontSize: 15,
-                        )),
-                  ),
                   DrawerTile(
-                      icon: Icons.airplanemode_active,
+                      icon: Icons.email_outlined,
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed('/suggestion');
+                      },
+                      title: "Suggestions"),
+                  DrawerTile(
+                      icon: Icons.open_in_browser,
                       onTap: _launchURL,
                       iconColor: ArgonColors.muted,
                       title: "Know more",

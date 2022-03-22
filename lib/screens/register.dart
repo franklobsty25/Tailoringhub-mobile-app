@@ -60,36 +60,31 @@ class _RegisterState extends State<Register> {
 
       try {
         final response = await http.post(
-            Uri.parse('https://tailoringhub.colonkoded.com/api/register'),
+            Uri.parse('https://tailoringhub.colonkoded.com/api/registeration'),
             headers: {'Content-Type': 'application/json; charset=utf-8'},
             body: jsonEncode(registerData.toJson()));
 
-        if (response.statusCode == 200 || response.statusCode == 201) {
-          final result = jsonDecode(response.body) as Map<String, dynamic>;
+        final result = jsonDecode(response.body) as Map<String, dynamic>;
 
-          if (result['success']) {
-            setState(() {
-              _isLoading = false;
-            });
-            // Obtain shared preferences.
-            final prefs = await SharedPreferences.getInstance();
-            // Save a String value to 'token' key.
-            await prefs.setString('token', result['token']);
+        if (result['success']) {
+          setState(() {
+            _isLoading = false;
+          });
+          // Obtain shared preferences.
+          final prefs = await SharedPreferences.getInstance();
+          // Save a String value to 'token' key.
+          prefs.setString('token', result['token']);
+          prefs.setString('email', _email.text.trim());
 
-            Navigator.of(context).pushReplacementNamed('/home');
-          } else {
-            setState(() {
-              _isLoading = false;
-            });
-            _message = 'Registration unsuccessful. Check your email';
-          }
+          Navigator.of(context).pushReplacementNamed('/home');
         } else {
           setState(() {
             _isLoading = false;
           });
-          _message = 'Something went wrong. Please try again!';
-        } //
+          _message = 'Registration unsuccessful. Check your email';
+        }
       } catch (ex) {
+        print(ex);
         setState(() {
           _isLoading = false;
         });
@@ -101,9 +96,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Sign up'),
-        ),
+        appBar: AppBar(),
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [

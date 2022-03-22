@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:argon_flutter/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:argon_flutter/constants/Theme.dart';
@@ -110,7 +111,9 @@ class _SuitState extends State<Suit> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                    '${customer.firstName} ${customer.lastName} suit measurement saved. Add another!'),
+                  '${customer.firstName} ${customer.lastName} suit measurement saved. Add another!',
+                  textAlign: TextAlign.center,
+                ),
                 backgroundColor: ArgonColors.success,
               ),
             );
@@ -125,8 +128,11 @@ class _SuitState extends State<Suit> {
           });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: const Text('Something went wrong. Please try again!'),
-              backgroundColor: ArgonColors.warning,
+              content: const Text(
+                'Something went wrong. Please try again!',
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: Colors.red,
             ),
           );
         }
@@ -136,8 +142,11 @@ class _SuitState extends State<Suit> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text('Something went wrong. Please try again!'),
-            backgroundColor: ArgonColors.warning,
+            content: const Text(
+              'Something went wrong. Please try again!',
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.red,
           ),
         );
       }
@@ -191,7 +200,9 @@ class _SuitState extends State<Suit> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                    '${customer.firstName} ${customer.lastName} suit measurement updated.'),
+                  '${customer.firstName} ${customer.lastName} suit measurement updated.',
+                  textAlign: TextAlign.center,
+                ),
                 backgroundColor: ArgonColors.inputSuccess,
               ),
             );
@@ -202,8 +213,11 @@ class _SuitState extends State<Suit> {
           });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: const Text('Something went wrong. Please try again!'),
-              backgroundColor: ArgonColors.warning,
+              content: const Text(
+                'Something went wrong. Please try again!',
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: Colors.red,
             ),
           );
         }
@@ -213,8 +227,11 @@ class _SuitState extends State<Suit> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text('Something went wrong. Please try again!'),
-            backgroundColor: ArgonColors.warning,
+            content: const Text(
+              'Something went wrong. Please try again!',
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.red,
           ),
         );
       }
@@ -225,7 +242,6 @@ class _SuitState extends State<Suit> {
   Widget build(BuildContext context) {
     CustomerModel customer =
         ModalRoute.of(context).settings.arguments as CustomerModel;
-    Provider.of<SuitProvider>(context, listen: false).getSuit(customer);
 
     return Scaffold(
       appBar: Navbar(
@@ -234,145 +250,156 @@ class _SuitState extends State<Suit> {
       ),
       backgroundColor: ArgonColors.bgColorScreen,
       drawer: ArgonDrawer(currentPage: "Suit"),
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  alignment: Alignment.topCenter,
-                  image: AssetImage("assets/img/tailoringhub.jpg"),
-                  fit: BoxFit.fitWidth),
-            ),
-          ),
-          Container(
-            padding:
-                const EdgeInsets.only(right: 18.0, left: 18.0, bottom: 36.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 20.0, left: 8.0, bottom: 8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("${customer.firstName} ${customer.lastName}",
-                          style: TextStyle(
-                              color: ArgonColors.text,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16)),
-                    ),
+      body: FutureBuilder(
+          future: Provider.of<SuitProvider>(context, listen: false)
+              .getSuit(customer),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loading();
+            }
+            return Stack(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        alignment: Alignment.topCenter,
+                        image: AssetImage("assets/img/tailoringhub.jpg"),
+                        fit: BoxFit.fitWidth),
                   ),
-                  Card(
-                    elevation: 5,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                                controller: _halfBack,
-                                decoration: const InputDecoration(
-                                    labelText: 'Half back'),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter half back';
-                                  }
-                                  return null;
-                                }),
-                            TextFormField(
-                                controller: _shoulder,
-                                decoration: const InputDecoration(
-                                    labelText: 'Shoulder'),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter shoulder';
-                                  }
-                                  return null;
-                                }),
-                            TextFormField(
-                                controller: _elbow,
-                                decoration:
-                                    const InputDecoration(labelText: 'Elbow'),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter elbow';
-                                  }
-                                  return null;
-                                }),
-                            TextFormField(
-                                controller: _sleeve,
-                                decoration:
-                                    const InputDecoration(labelText: 'Sleeve'),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter sleeve';
-                                  }
-                                  return null;
-                                }),
-                            TextFormField(
-                                controller: _chest,
-                                decoration:
-                                    const InputDecoration(labelText: 'Chest'),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter chest';
-                                  }
-                                  return null;
-                                }),
-                            TextFormField(
-                                controller: _suitLength,
-                                decoration: const InputDecoration(
-                                    labelText: 'Suit length'),
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter suit length';
-                                  }
-                                  return null;
-                                }),
-                            const SizedBox(height: 25.0),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                child: (_isLoading)
-                                    ? const SizedBox(
-                                        width: double.infinity,
-                                        child: SpinKitFadingCircle(
-                                          color: ArgonColors.bgColorScreen,
-                                          size: 20.0,
-                                        ),
-                                      )
-                                    : Text(
-                                        (_isSuit) ? 'Update' : 'Save',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                onPressed: (_isSuit) ? _updateSuit : _saveSuit,
+                ),
+                Container(
+                  padding: const EdgeInsets.only(
+                      right: 18.0, left: 18.0, bottom: 36.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20.0, left: 8.0, bottom: 8.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                                "${customer.firstName} ${customer.lastName}",
+                                style: TextStyle(
+                                    color: ArgonColors.text,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16)),
+                          ),
+                        ),
+                        Card(
+                          elevation: 5,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                      controller: _halfBack,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Half back'),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter half back';
+                                        }
+                                        return null;
+                                      }),
+                                  TextFormField(
+                                      controller: _shoulder,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Shoulder'),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter shoulder';
+                                        }
+                                        return null;
+                                      }),
+                                  TextFormField(
+                                      controller: _elbow,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Elbow'),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter elbow';
+                                        }
+                                        return null;
+                                      }),
+                                  TextFormField(
+                                      controller: _sleeve,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Sleeve'),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter sleeve';
+                                        }
+                                        return null;
+                                      }),
+                                  TextFormField(
+                                      controller: _chest,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Chest'),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter chest';
+                                        }
+                                        return null;
+                                      }),
+                                  TextFormField(
+                                      controller: _suitLength,
+                                      decoration: const InputDecoration(
+                                          labelText: 'Suit length'),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter suit length';
+                                        }
+                                        return null;
+                                      }),
+                                  const SizedBox(height: 25.0),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      child: (_isLoading)
+                                          ? const SizedBox(
+                                              width: double.infinity,
+                                              child: SpinKitFadingCircle(
+                                                color:
+                                                    ArgonColors.bgColorScreen,
+                                                size: 20.0,
+                                              ),
+                                            )
+                                          : Text(
+                                              (_isSuit) ? 'Update' : 'Save',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.0,
+                                              ),
+                                            ),
+                                      onPressed:
+                                          (_isSuit) ? _updateSuit : _saveSuit,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+                ),
+              ],
+            );
+          }),
     );
   }
 }

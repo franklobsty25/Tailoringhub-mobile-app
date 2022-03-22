@@ -61,41 +61,34 @@ class _ChangePasswordState extends State<ChangePassword> {
             },
             body: jsonEncode(data));
 
-        if (response.statusCode == 200 || response.statusCode == 201) {
-          final result = jsonDecode(response.body) as Map<String, dynamic>;
+        final result = jsonDecode(response.body) as Map<String, dynamic>;
 
-          if (result['success']) {
-            setState(() {
-              _isLoading = false;
-            });
+        if (result['success']) {
+          setState(() {
+            _isLoading = false;
+          });
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(result['message']),
-                backgroundColor: ArgonColors.success,
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                result['message'],
+                textAlign: TextAlign.center,
               ),
-            );
-          } else {
-            setState(() {
-              _isLoading = false;
-            });
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(result['message']),
-                backgroundColor: ArgonColors.warning,
-              ),
-            );
-          }
+              backgroundColor: ArgonColors.success,
+            ),
+          );
         } else {
           setState(() {
             _isLoading = false;
           });
+
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: const Text(
-                  'Current password don\'t match. Please try again!'),
-              backgroundColor: ArgonColors.warning,
+            SnackBar(
+              content: Text(
+                result['message'],
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: Colors.red,
             ),
           );
         }
@@ -105,8 +98,11 @@ class _ChangePasswordState extends State<ChangePassword> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text('Something went wrong. Please try again!'),
-            backgroundColor: ArgonColors.warning,
+            content: const Text(
+              'Something went wrong. Please try again!',
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.red,
           ),
         );
       }

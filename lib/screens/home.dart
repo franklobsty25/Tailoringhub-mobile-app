@@ -1,7 +1,8 @@
+import 'package:argon_flutter/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:argon_flutter/constants/Theme.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:argon_flutter/providers/customer-provider.dart';
 
 // Widgets
@@ -12,6 +13,11 @@ class Home extends StatelessWidget {
   _searchCustomer(context, contact) {
     Provider.of<CustomerProvider>(context, listen: false)
         .searchCustomer(contact);
+  }
+
+  _getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
   }
 
   @override
@@ -30,23 +36,7 @@ class Home extends StatelessWidget {
               .getCustomers(),
           builder: (context, snapshots) {
             if (snapshots.connectionState == ConnectionState.waiting) {
-              return Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            alignment: Alignment.topCenter,
-                            image: AssetImage("assets/img/tailoringhub.jpg"),
-                            fit: BoxFit.cover)),
-                    child: Center(
-                      child: const SpinKitFadingCircle(
-                        color: ArgonColors.primary,
-                        size: 50.0,
-                      ),
-                    ),
-                  ),
-                ],
-              );
+              return Loading();
             }
             return Stack(
               children: [
@@ -80,36 +70,98 @@ class Home extends StatelessWidget {
                       return ListView.builder(
                           itemCount: customer.customers.length,
                           itemBuilder: (context, index) {
-                            return Card(
-                              elevation: 5,
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: ArgonColors.bgColorScreen,
-                                  backgroundImage:
-                                      AssetImage("assets/img/logo.png"),
+                            return Dismissible(
+                              key: ValueKey(_getToken()),
+                              background: Container(
+                                color: Colors.red,
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                  size: 40,
                                 ),
-                                title: Text(
-                                    '${customer.customers[index].firstName} ${customer.customers[index].lastName}'),
-                                subtitle: Text(
-                                    '0${customer.customers[index].contact}'),
-                                onTap: () {
-                                  Navigator.of(context).pushReplacementNamed(
-                                      '/choose',
-                                      arguments: customer.customers[index]);
-                                },
-                                trailing: IconButton(
-                                    icon: Icon(Icons.delete,
-                                        color: ArgonColors.warning),
+                                alignment: Alignment.centerRight,
+                                padding: EdgeInsets.only(right: 20.0),
+                                margin: EdgeInsets.symmetric(
+                                  vertical: 4,
+                                  horizontal: 15,
+                                ),
+                              ),
+                              direction: DismissDirection.endToStart,
+                              confirmDismiss: (direction) {
+                                return showDialog(
+                                  context: context,
+                                  builder: (ctx) => AlertDialog(
+                                    title: Text('Are you sure?'),
+                                    content: Text(
+                                        'Do you want to delete ${customer.customers[index].firstName} ${customer.customers[index].lastName}?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop(false);
+                                        },
+                                        child: Text('No'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop(true);
+                                        },
+                                        child: Text(
+                                          'Yes',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              onDismissed: (direction) async {
+                                try {
+                                  await Provider.of<CustomerProvider>(context,
+                                          listen: false)
+                                      .deleteCustomer(
+                                          customer.customers[index]);
+                                } catch (error) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Deleting failed!',
+                                          textAlign: TextAlign.center),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Card(
+                                elevation: 5,
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: ArgonColors.bgColorScreen,
+                                    backgroundImage:
+                                        AssetImage("assets/img/logo.png"),
+                                  ),
+                                  title: Text(
+                                      '${customer.customers[index].firstName} ${customer.customers[index].lastName}'),
+                                  subtitle: Text(
+                                      '0${customer.customers[index].contact}'),
+                                  onTap: () {
+                                    Navigator.of(context).pushReplacementNamed(
+                                        '/choose',
+                                        arguments: customer.customers[index]);
+                                  },
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.message),
                                     onPressed: () {
-                                      Provider.of<CustomerProvider>(context,
-                                              listen: false)
-                                          .deleteCustomer(
-                                              customer.customers[index]);
-                                    }),
+                                      Navigator.of(context)
+                                          .pushReplacementNamed('/subscription',
+                                              arguments: customer
+                                                  .customers[index].contact);
+                                    },
+                                  ),
+                                ),
                               ),
                             );
                           });

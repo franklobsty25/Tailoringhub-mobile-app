@@ -121,7 +121,10 @@ class _EditProfileState extends State<EditProfile> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: const Text('Upload unsuccessful! Save profile first.'),
+          content: const Text(
+            'Upload unsuccessful! Save profile first.',
+            textAlign: TextAlign.center,
+          ),
           backgroundColor: ArgonColors.warning,
         ),
       );
@@ -134,7 +137,7 @@ class _EditProfileState extends State<EditProfile> {
       _isLoading = true;
     });
     final prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString('token');
+
     final data = {
       'about': _about.text.trim(),
       'company': _company.text.trim(),
@@ -145,9 +148,10 @@ class _EditProfileState extends State<EditProfile> {
       'file': 'images/logo.png', // default image
       'facebook': _facebook.text.trim(),
       'instagram': _instagram.text.trim(),
-      'twitter': _twitter.text.trim(),
+      'twitter': _twitter.text.trim()
     };
 
+    final String token = prefs.getString('token');
     var formData = FormData.fromMap(data);
     try {
       var dio = Dio();
@@ -165,18 +169,25 @@ class _EditProfileState extends State<EditProfile> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text('Profile saved successfully!'),
+            content: const Text(
+              'Profile saved successfully!',
+              textAlign: TextAlign.center,
+            ),
             backgroundColor: ArgonColors.success,
           ),
         );
       }
     } catch (ex) {
+      print(ex);
       setState(() {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: const Text('Profile save unsuccessful!'),
+          content: const Text(
+            'Profile save unsuccessful!',
+            textAlign: TextAlign.center,
+          ),
           backgroundColor: ArgonColors.warning,
         ),
       );
@@ -218,7 +229,10 @@ class _EditProfileState extends State<EditProfile> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text('Profile updated successfully!'),
+            content: const Text(
+              'Profile updated successfully!',
+              textAlign: TextAlign.center,
+            ),
             backgroundColor: ArgonColors.success,
           ),
         );
@@ -229,7 +243,10 @@ class _EditProfileState extends State<EditProfile> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: const Text('Profile update unsuccessful!'),
+          content: const Text(
+            'Profile update unsuccessful!',
+            textAlign: TextAlign.center,
+          ),
           backgroundColor: ArgonColors.warning,
         ),
       );

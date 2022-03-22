@@ -125,8 +125,11 @@ class _CustomerState extends State<Customer> {
           });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: const Text('Something went wrong. Please try again!'),
-              backgroundColor: ArgonColors.warning,
+              content: const Text(
+                'Something went wrong. Please try again!',
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: Colors.red,
             ),
           );
         }
@@ -136,8 +139,11 @@ class _CustomerState extends State<Customer> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text('Something went wrong. Please try again!'),
-            backgroundColor: ArgonColors.warning,
+            content: const Text(
+              'Something went wrong. Please try again!',
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.red,
           ),
         );
       }

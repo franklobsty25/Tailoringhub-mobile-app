@@ -1,9 +1,9 @@
 import 'dart:ui';
+import 'package:argon_flutter/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:argon_flutter/constants/Theme.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:argon_flutter/providers/user-profile-provider.dart';
 
@@ -51,23 +51,7 @@ class Profile extends StatelessWidget {
               .getUserProfile(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            alignment: Alignment.topCenter,
-                            image: AssetImage("assets/img/tailoringhub.jpg"),
-                            fit: BoxFit.cover)),
-                    child: Center(
-                      child: const SpinKitFadingCircle(
-                        color: ArgonColors.primary,
-                        size: 50.0,
-                      ),
-                    ),
-                  ),
-                ],
-              );
+              return Loading();
             }
             return Stack(
               children: <Widget>[

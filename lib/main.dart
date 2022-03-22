@@ -10,6 +10,8 @@ import 'package:argon_flutter/screens/kaba-slit.dart';
 import 'package:argon_flutter/screens/choose.dart';
 import 'package:argon_flutter/screens/shirt.dart';
 import 'package:argon_flutter/screens/shorts-trouser.dart';
+import 'package:argon_flutter/screens/subscription.dart';
+import 'package:argon_flutter/screens/suggestion.dart';
 import 'package:argon_flutter/screens/suit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -70,6 +72,8 @@ class MyApp extends StatelessWidget {
           "/blouse-dress-skirt": (BuildContext context) =>
               new BlouseDressSkirt(),
           "/kaba-slit": (BuildContext context) => new KabaSlit(),
+          "/suggestion": (BuildContext context) => new Suggestion(true, ''),
+          "/subscription": (BuildContext context) => new Subscription(),
         },
       ),
     );

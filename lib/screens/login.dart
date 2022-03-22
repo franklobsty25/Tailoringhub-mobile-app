@@ -65,7 +65,8 @@ class _LoginState extends State<Login> {
             // Obtain shared preferences.
             final prefs = await SharedPreferences.getInstance();
             // Save a String value to 'token' key.
-            await prefs.setString('token', result['token']);
+            prefs.setString('token', result['token']);
+            prefs.setString('email', _email.text.trim());
 
             Navigator.of(context).pushReplacementNamed('/home');
           } else {
@@ -92,7 +93,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Login')),
+        appBar: AppBar(),
         extendBodyBehindAppBar: true,
         body: Stack(
           children: [

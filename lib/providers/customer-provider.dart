@@ -59,8 +59,8 @@ class CustomerProvider extends ChangeNotifier {
           .toList();
 
       notifyListeners();
-    } catch (ex) {
-      print(ex);
+    } catch (err) {
+      throw (err);
     }
   }
 
@@ -86,8 +86,8 @@ class CustomerProvider extends ChangeNotifier {
 
         notifyListeners();
       }
-    } catch (ex) {
-      print(ex);
+    } catch (err) {
+      throw (err);
     }
   }
 }

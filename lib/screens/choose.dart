@@ -1,7 +1,7 @@
+import 'package:argon_flutter/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:argon_flutter/constants/Theme.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:argon_flutter/models/customer-model.dart';
 import 'package:argon_flutter/providers/suit-provider.dart';
 import 'package:argon_flutter/providers/shirt-provider.dart';
@@ -40,23 +40,7 @@ class Choose extends StatelessWidget {
           future: _getCustomerMeasurement(customer, context),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            alignment: Alignment.topCenter,
-                            image: AssetImage("assets/img/tailoringhub.jpg"),
-                            fit: BoxFit.cover)),
-                    child: Center(
-                      child: const SpinKitFadingCircle(
-                        color: ArgonColors.primary,
-                        size: 50.0,
-                      ),
-                    ),
-                  ),
-                ],
-              );
+              return Loading();
             }
             return Container(
               padding:

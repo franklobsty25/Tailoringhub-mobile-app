@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:argon_flutter/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:argon_flutter/constants/Theme.dart';
 import 'package:argon_flutter/models/customer-model.dart';
@@ -173,7 +174,9 @@ class _BlouseDressSkirtState extends State<BlouseDressSkirt> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                  '${customer.firstName} ${customer.lastName} blouse/dress/skirt measurement saved. Add another!'),
+                '${customer.firstName} ${customer.lastName} blouse/dress/skirt measurement saved. Add another!',
+                textAlign: TextAlign.center,
+              ),
               backgroundColor: ArgonColors.success,
             ),
           );
@@ -188,8 +191,11 @@ class _BlouseDressSkirtState extends State<BlouseDressSkirt> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text('Something went wrong. Please try again!'),
-            backgroundColor: ArgonColors.warning,
+            content: const Text(
+              'Something went wrong. Please try again!',
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.red,
           ),
         );
       }
@@ -199,8 +205,11 @@ class _BlouseDressSkirtState extends State<BlouseDressSkirt> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: const Text('Something went wrong. Please try again!'),
-          backgroundColor: ArgonColors.warning,
+          content: const Text(
+            'Something went wrong. Please try again!',
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -274,7 +283,9 @@ class _BlouseDressSkirtState extends State<BlouseDressSkirt> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                  '${customer.firstName} ${customer.lastName} blouse/dress/skirt measurement updated.'),
+                '${customer.firstName} ${customer.lastName} blouse/dress/skirt measurement updated.',
+                textAlign: TextAlign.center,
+              ),
               backgroundColor: ArgonColors.success,
             ),
           );
@@ -285,8 +296,11 @@ class _BlouseDressSkirtState extends State<BlouseDressSkirt> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text('Something went wrong. Please try again!'),
-            backgroundColor: ArgonColors.warning,
+            content: const Text(
+              'Something went wrong. Please try again!',
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: Colors.red,
           ),
         );
       }
@@ -296,8 +310,11 @@ class _BlouseDressSkirtState extends State<BlouseDressSkirt> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: const Text('Something went wrong. Please try again!'),
-          backgroundColor: ArgonColors.warning,
+          content: const Text(
+            'Something went wrong. Please try again!',
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -307,8 +324,6 @@ class _BlouseDressSkirtState extends State<BlouseDressSkirt> {
   Widget build(BuildContext context) {
     CustomerModel customer =
         ModalRoute.of(context).settings.arguments as CustomerModel;
-    Provider.of<BlouseDressSkirtProvider>(context, listen: false)
-        .getBlouseDressSkirt(customer);
 
     return Scaffold(
       appBar: Navbar(
@@ -317,168 +332,181 @@ class _BlouseDressSkirtState extends State<BlouseDressSkirt> {
       ),
       backgroundColor: ArgonColors.bgColorScreen,
       drawer: ArgonDrawer(currentPage: "Blouse/Dress/Skirt"),
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  alignment: Alignment.topCenter,
-                  image: AssetImage("assets/img/tailoringhub.jpg"),
-                  fit: BoxFit.fitWidth),
-            ),
-          ),
-          Container(
-            padding:
-                const EdgeInsets.only(right: 18.0, left: 18.0, bottom: 36.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 20.0, left: 8.0, bottom: 8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("${customer.firstName} ${customer.lastName}",
-                          style: TextStyle(
-                              color: ArgonColors.text,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16)),
-                    ),
+      body: FutureBuilder(
+          future: Provider.of<BlouseDressSkirtProvider>(context, listen: false)
+              .getBlouseDressSkirt(customer),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loading();
+            }
+            return Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        alignment: Alignment.topCenter,
+                        image: AssetImage("assets/img/tailoringhub.jpg"),
+                        fit: BoxFit.fitWidth),
                   ),
-                  Card(
-                    elevation: 5,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: _bust,
-                              decoration: InputDecoration(labelText: 'Bust'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _waist,
-                              decoration: InputDecoration(labelText: 'Waist'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _hip,
-                              decoration: InputDecoration(labelText: 'Hip'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _shoulder,
-                              decoration:
-                                  InputDecoration(labelText: 'Shoulder'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _shoulderNipple,
-                              decoration: InputDecoration(
-                                  labelText: 'Shoulder to nipple'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _nippleNipple,
-                              decoration: InputDecoration(
-                                  labelText: 'Nipple to nipple'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _napeWaist,
-                              decoration:
-                                  InputDecoration(labelText: 'Nape to waist'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _shoulderWaist,
-                              decoration: InputDecoration(
-                                  labelText: 'Shoulder to waist'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _shoulderHip,
-                              decoration:
-                                  InputDecoration(labelText: 'Shoulder to hip'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _acrossChest,
-                              decoration:
-                                  InputDecoration(labelText: 'Across chest'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _dressLength,
-                              decoration:
-                                  InputDecoration(labelText: 'Dress length'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _sleeveLength,
-                              decoration:
-                                  InputDecoration(labelText: 'Sleeve length'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _aroundArm,
-                              decoration:
-                                  InputDecoration(labelText: 'Around arm'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _acrossBack,
-                              decoration:
-                                  InputDecoration(labelText: 'Across back'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            TextFormField(
-                              controller: _skirtLength,
-                              decoration:
-                                  InputDecoration(labelText: 'Skirt length'),
-                              keyboardType: TextInputType.number,
-                            ),
-                            const SizedBox(height: 25.0),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                child: (_isLoading)
-                                    ? const SizedBox(
-                                        width: double.infinity,
-                                        child: SpinKitFadingCircle(
-                                          color: ArgonColors.bgColorScreen,
-                                          size: 20.0,
-                                        ))
-                                    : Text(
-                                        (_isBlouseDressSkirt)
-                                            ? 'Update'
-                                            : 'Save',
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                onPressed: (_isBlouseDressSkirt)
-                                    ? _updateBlouseDressSkirt
-                                    : _saveBlouseDressSkirt,
+                ),
+                Container(
+                  padding: const EdgeInsets.only(
+                      right: 18.0, left: 18.0, bottom: 36.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20.0, left: 8.0, bottom: 8.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                                "${customer.firstName} ${customer.lastName}",
+                                style: TextStyle(
+                                    color: ArgonColors.text,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16)),
+                          ),
+                        ),
+                        Card(
+                          elevation: 5,
+                          clipBehavior: Clip.antiAlias,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    controller: _bust,
+                                    decoration:
+                                        InputDecoration(labelText: 'Bust'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _waist,
+                                    decoration:
+                                        InputDecoration(labelText: 'Waist'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _hip,
+                                    decoration:
+                                        InputDecoration(labelText: 'Hip'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _shoulder,
+                                    decoration:
+                                        InputDecoration(labelText: 'Shoulder'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _shoulderNipple,
+                                    decoration: InputDecoration(
+                                        labelText: 'Shoulder to nipple'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _nippleNipple,
+                                    decoration: InputDecoration(
+                                        labelText: 'Nipple to nipple'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _napeWaist,
+                                    decoration: InputDecoration(
+                                        labelText: 'Nape to waist'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _shoulderWaist,
+                                    decoration: InputDecoration(
+                                        labelText: 'Shoulder to waist'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _shoulderHip,
+                                    decoration: InputDecoration(
+                                        labelText: 'Shoulder to hip'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _acrossChest,
+                                    decoration: InputDecoration(
+                                        labelText: 'Across chest'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _dressLength,
+                                    decoration: InputDecoration(
+                                        labelText: 'Dress length'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _sleeveLength,
+                                    decoration: InputDecoration(
+                                        labelText: 'Sleeve length'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _aroundArm,
+                                    decoration: InputDecoration(
+                                        labelText: 'Around arm'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _acrossBack,
+                                    decoration: InputDecoration(
+                                        labelText: 'Across back'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextFormField(
+                                    controller: _skirtLength,
+                                    decoration: InputDecoration(
+                                        labelText: 'Skirt length'),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  const SizedBox(height: 25.0),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      child: (_isLoading)
+                                          ? const SizedBox(
+                                              width: double.infinity,
+                                              child: SpinKitFadingCircle(
+                                                color:
+                                                    ArgonColors.bgColorScreen,
+                                                size: 20.0,
+                                              ))
+                                          : Text(
+                                              (_isBlouseDressSkirt)
+                                                  ? 'Update'
+                                                  : 'Save',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                      onPressed: (_isBlouseDressSkirt)
+                                          ? _updateBlouseDressSkirt
+                                          : _saveBlouseDressSkirt,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+                ),
+              ],
+            );
+          }),
     );
   }
 }

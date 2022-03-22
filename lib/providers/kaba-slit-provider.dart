@@ -18,24 +18,20 @@ class KabaSlitProvider extends ChangeNotifier {
     // Reading data from the 'token' key. If it doesn't exist, returns null.
     final String token = prefs.getString('token');
 
-    try {
-      final response = await http.get(
-          Uri.parse(
-              'https://tailoringhub.colonkoded.com/api/customer/${customer.contact}/measurement'),
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json; charset=utf-8'
-          });
-      final result = jsonDecode(response.body) as Map<String, dynamic>;
+    final response = await http.get(
+        Uri.parse(
+            'https://tailoringhub.colonkoded.com/api/customer/${customer.contact}/measurement'),
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json; charset=utf-8'
+        });
+    final result = jsonDecode(response.body) as Map<String, dynamic>;
 
-      if (result['success'] && result['kabaSlit'] != null) {
-        _kabaSlit = KabaSlitModel.fromJson(result['kabaSlit']);
-        notifyListeners();
-      } else {
-        _kabaSlit = null;
-      }
-    } catch (ex) {
-      print(ex);
+    if (result['success'] && result['kabaSlit'] != null) {
+      _kabaSlit = KabaSlitModel.fromJson(result['kabaSlit']);
+      notifyListeners();
+    } else {
+      _kabaSlit = null;
     }
   }
 }
