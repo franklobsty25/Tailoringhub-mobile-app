@@ -66,7 +66,7 @@ class _SubscriptionState extends State<Subscription> {
       final res = jsonDecode(verifyResponse.body) as Map<String, dynamic>;
 
       if (res['status']) {
-        Navigator.of(context).pushReplacementNamed('/suggestion');
+        Navigator.of(context).pushReplacementNamed('/home');
       }
     } catch (ex) {
       ScaffoldMessenger.of(context).showSnackBar(

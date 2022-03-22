@@ -140,7 +140,7 @@ class _CustomerState extends State<Customer> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: const Text(
-              'Something went wrong. Please try again!',
+              'Customer with that contact already exist.',
               textAlign: TextAlign.center,
             ),
             backgroundColor: Colors.red,

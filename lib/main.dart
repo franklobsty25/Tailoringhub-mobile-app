@@ -72,8 +72,8 @@ class MyApp extends StatelessWidget {
           "/blouse-dress-skirt": (BuildContext context) =>
               new BlouseDressSkirt(),
           "/kaba-slit": (BuildContext context) => new KabaSlit(),
-          "/suggestion": (BuildContext context) => new Suggestion(true, ''),
           "/subscription": (BuildContext context) => new Subscription(),
+          "/suggestion": (BuildContext context) => new Suggestion(true, ''),
         },
       ),
     );
