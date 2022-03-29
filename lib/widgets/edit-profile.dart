@@ -113,7 +113,10 @@ class _EditProfileState extends State<EditProfile> {
       if (response.data['success']) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: const Text('Upload successfully!'),
+            content: const Text(
+              'Uploaded successfully!',
+              textAlign: TextAlign.center,
+            ),
             backgroundColor: ArgonColors.success,
           ),
         );

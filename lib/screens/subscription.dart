@@ -41,13 +41,13 @@ class _SubscriptionState extends State<Subscription> {
           'Authorization': 'Bearer ' + token,
           'Content-Type': 'application/json; charset=utf-8',
         },
-        body: jsonEncode({'amount': 5}),
+        body: jsonEncode({'amount': 10}),
       );
 
       final result = jsonDecode(response.body) as Map<String, dynamic>;
 
       Charge charge = new Charge();
-      charge.amount = 5 * 100;
+      charge.amount = 10 * 100;
       charge.email = email;
       charge.accessCode = result['data']['access_code'];
       charge.currency = 'GHS';
@@ -111,7 +111,7 @@ class _SubscriptionState extends State<Subscription> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
-                          'Subscribe GHS 5.00 monthly to keep sending messages to customers for pick up',
+                          'Subscribe GHS 10.00 monthly to keep sending messages to customers for pick up',
                           style: TextStyle(
                               color: ArgonColors.info,
                               fontSize: 20.0,

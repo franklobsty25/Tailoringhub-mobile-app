@@ -66,6 +66,9 @@ class _ChangePasswordState extends State<ChangePassword> {
         if (result['success']) {
           setState(() {
             _isLoading = false;
+            _currentPassword.clear();
+            _newPassword.clear();
+            _confirmPassword.clear();
           });
 
           ScaffoldMessenger.of(context).showSnackBar(

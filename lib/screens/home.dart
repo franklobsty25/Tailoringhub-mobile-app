@@ -10,9 +10,21 @@ import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 
 class Home extends StatelessWidget {
-  _searchCustomer(context, contact) {
-    Provider.of<CustomerProvider>(context, listen: false)
-        .searchCustomer(contact);
+  _searchCustomer(context, contact) async {
+    try {
+      await Provider.of<CustomerProvider>(context, listen: false)
+          .searchCustomer(contact);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Contact not found',
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   _getToken() async {
