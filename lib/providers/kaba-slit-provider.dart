@@ -20,7 +20,7 @@ class KabaSlitProvider extends ChangeNotifier {
 
     final response = await http.get(
         Uri.parse(
-            'https://tailoringhub.colonkoded.com/api/customer/${customer.contact}/measurement'),
+            'https://tailoring.tailoringhub.colonkoded.com/api/customer/${customer.contact}/measurement'),
         headers: {
           'Authorization': 'Bearer ' + token,
           'Content-Type': 'application/json; charset=utf-8'

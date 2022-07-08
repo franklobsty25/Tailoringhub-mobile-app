@@ -29,7 +29,7 @@ class UserProfileProvider extends ChangeNotifier {
     final String token = prefs.getString('token');
 
     final response = await http.get(
-        Uri.parse('https://tailoringhub.colonkoded.com/api/profile'),
+        Uri.parse('https://tailoring.tailoringhub.colonkoded.com/api/profile'),
         headers: {
           'Authorization': 'Bearer ' + token,
           'Content-Type': 'application/json; charset=utf-8'

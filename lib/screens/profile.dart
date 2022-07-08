@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:argon_flutter/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
