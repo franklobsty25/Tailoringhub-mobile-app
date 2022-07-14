@@ -20,8 +20,7 @@ class CustomerProvider extends ChangeNotifier {
 
     try {
       final response = await http.get(
-          Uri.parse(
-              'https://tailoring.tailoringhub.colonkoded.com/api/customers'),
+          Uri.parse('https://tailoringhub.colonkoded.com/api/customers'),
           headers: {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json; charset=utf-8'
@@ -47,9 +46,8 @@ class CustomerProvider extends ChangeNotifier {
 
     try {
       final response = await http.get(
-          Uri.parse(
-              'https://tailoring.tailoringhub.colonkoded.com/api/customer/search/' +
-                  contact),
+          Uri.parse('https://tailoringhub.colonkoded.com/api/customer/search/' +
+              contact),
           headers: {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json; charset=utf-8'
@@ -76,7 +74,7 @@ class CustomerProvider extends ChangeNotifier {
     try {
       final response = await http.delete(
           Uri.parse(
-              'https://tailoring.tailoringhub.colonkoded.com/api/delete/customer/${customer.contact}'),
+              'https://tailoringhub.colonkoded.com/api/delete/customer/${customer.contact}'),
           headers: {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json; charset=utf-8'
